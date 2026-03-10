@@ -41,6 +41,23 @@ test('Demo Login Test 1', async ({ page }) => {
     console.log("Delivery City", csvdata[0].DCity);
     console.log("Delivery Province", csvdata[0].DProvince);
     console.log("Delivery Zipcode", csvdata[0].DZipcode);
+//Beneficiary Details
+    console.log("Beneficiary First Name", csvdata[0].BFname);
+    console.log("Beneficiary Middle Name", csvdata[0].BMname);
+    console.log("Beneficiary Last Name", csvdata[0].BLname);
+
+    console.log("Birth Date", csvdata[0].BDay);
+    console.log("Birth Place", csvdata[0].BPlace);
+    console.log("Nationality", csvdata[0].Nationality);
+
+    console.log("Email", csvdata[0].Email);
+    console.log("Gender", csvdata[0].Gender);
+    console.log("Civil Status", csvdata[0].CivilStatus);
+
+    console.log("Present Address", csvdata[0].PresentAddress);
+    console.log("Present Address City", csvdata[0].PreCity);
+    console.log("Present Address Province", csvdata[0].PreProvince);
+    console.log("Present Address Zipcode", csvdata[0].PreZipcode);
     
     // Interact with the page using the CSV data
 
@@ -77,6 +94,42 @@ test('Demo Login Test 1', async ({ page }) => {
     await page.locator('#daCity').fill(csvdata[0].DCity);
     await page.locator('#daProvince').fill(csvdata[0].DProvince);
     await page.locator('#daZipCode').fill(csvdata[0].DZipcode);
+
+    //beneficiary Info
+    await page.getByRole('textbox', { name: 'First name' }).fill(csvdata[0].BFname);
+    await page.getByRole('textbox', { name: 'Middle name' }).fill(csvdata[0].BMname);
+    await page.getByRole('textbox', { name: 'Last name' }).fill(csvdata[0].BLname);
+
+    // ... preceding code
+
+    // 1. Get the raw date from CSV (expected "MM-DD-YYYY" or "DD-MM-YYYY")
+    const rawDate = csvdata[0].BDay; 
+    // 2. Reformat to YYYY-MM-DD
+    const [month, day, year] = rawDate.split('-');
+    const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+    // 3. Fill with correct format
+    await page.getByRole('textbox', { name: 'Birth date' }).fill(formattedDate);
+    //await page.getByRole('textbox', { name: 'Birth date' }).fill(csvdata[0].BDay);
+    await page.getByRole('textbox', { name: 'Birth place' }).fill(csvdata[0].BPlace);
+    await page.getByRole('textbox', { name: 'Nationality' }).fill(csvdata[0].Nationality);
+
+
+    await page.getByRole('textbox', { name: 'Email' }).fill(csvdata[0].Email);
+
+    await page.getByLabel('Gender').click();
+    const dropDownList5 = page.locator('#gender');
+    dropDownList5.selectOption(csvdata[0].Gender);
+
+    await page.getByLabel('Civil status').click();
+    const dropDownList6 = page.locator('#maritalStatus');
+    dropDownList6.selectOption(csvdata[0].CivilStatus);
+
+    await page.getByRole('textbox', { name: 'Present address' }).fill(csvdata[0].PresentAddress);
+    await page.locator('#city1').fill(csvdata[0].PreCity);
+    await page.locator('#province1').fill(csvdata[0].PreProvince);
+    await page.locator('#zipcode1').fill(csvdata[0].PreZipcode);
+
     //await page.getByText('Merchant Category Code').fill(csvdata[0].MerchantCategory);
     await page.pause()
     
