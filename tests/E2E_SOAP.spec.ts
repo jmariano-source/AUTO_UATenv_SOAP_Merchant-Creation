@@ -63,6 +63,9 @@ test('Demo Login Test 1', async ({ page }) => {
     console.log("Permanent Address City", csvdata[0].PermaCity);
     console.log("Permanent Address Province", csvdata[0].PermaProvince);
     console.log("Permanent Address Zipcode", csvdata[0].PermaZipcode);
+
+    console.log("Settlement Period", csvdata[0].SettlementPeriod);
+
     
     // Interact with the page using the CSV data
 
@@ -141,8 +144,11 @@ test('Demo Login Test 1', async ({ page }) => {
     await page.locator('#zipcode2').fill(csvdata[0].PermaZipcode);
     await page.locator('#zipcode2').fill(csvdata[0].PermaZipcode);
 
+    await page.locator('.mat-slide-toggle-thumb').first().click();
+
+    //await page.locator('#save').click();
     //await page.getByText('Merchant Category Code').fill(csvdata[0].MerchantCategory);
-    await page.pause()
+    await page.pause();
     
     // Optional: Keep for debugging, but remove in CI/CD
     // await page.pause(); 
